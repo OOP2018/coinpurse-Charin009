@@ -65,7 +65,7 @@ public class ConsoleDialog {
     }
 
     /** 
-     * Ask the user how many coins to deposit into purse, then deposit them.
+     * Ask the user how many coins or BankNotes to deposit into purse, then deposit them.
      * Show result of success or failure.
      * The user can type the values on same line as he typed "d", e.g. "d 5 10 1"
      * so check for that.
@@ -82,9 +82,9 @@ public class ConsoleDialog {
         Scanner scanline = new Scanner(inline);
         while( scanline.hasNextDouble() ) {
             double value = scanline.nextDouble();
-            Coin coin = makeMoney(value);
-            System.out.printf("Deposit %s... ", coin.toString() );
-            boolean ok = purse.insert(coin);
+            Valuable money = makeMoney(value);
+            System.out.printf("Deposit %s... ", money.toString() );
+            boolean ok = purse.insert(money);
             System.out.println( (ok? "ok" : "FAILED") );
         }
         if ( scanline.hasNext() )
@@ -108,13 +108,13 @@ public class ConsoleDialog {
         
         if ( scanline.hasNextDouble() ) {
              double amount = scanline.nextDouble( );
-             Coin [] coins = purse.withdraw(amount);
-             if ( coins == null ) 
+             Valuable [] money = purse.withdraw(amount);
+             if ( money == null ) 
                 System.out.printf("Sorry, couldn't withdraw %.2g %s\n", amount, CURRENCY);
              else {
                 System.out.print("You withdrew:");
-                for(int k=0; k<coins.length; k++) {
-                	System.out.print((k==0?" ":", ") + coins[k].toString() );
+                for(int k=0; k<money.length; k++) {
+                	System.out.print((k==0?" ":", ") + money[k].toString() );
                 }
                 System.out.println();
             }
@@ -124,7 +124,8 @@ public class ConsoleDialog {
     }
     
     /** Make a Coin (or BankNote or whatever) using requested value. */
-    private Coin makeMoney(double value) {
+    private Valuable makeMoney(double value) {
+    	if(value >= 20) return new BankNote(value, CURRENCY);
     	return new Coin(value, CURRENCY);
     }
 
