@@ -21,6 +21,11 @@ public class Purse {
     private final int capacity;
     
     /** 
+     * Define new comparator.
+     */
+    private Comparator<Valuable> comp = new ValueComparator();
+    
+    /** 
      *  Create a purse with a specified capacity.
      *  @param capacity is maximum number of coins you can put in purse.
      */
@@ -98,7 +103,6 @@ public class Purse {
      */
     public Valuable[] withdraw( double amount ) {
     	List<Valuable> moneyList2 = new ArrayList<>();
-    	Comparator<Valuable> comp = new ValueComparator();
     	Collections.sort(moneyList, comp);
 		Collections.reverse(moneyList);
 		// Did we get the full amount?
