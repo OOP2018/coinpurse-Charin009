@@ -103,14 +103,12 @@ public class Purse {
      */
     public Valuable[] withdraw( double amount ) {
     	List<Valuable> moneyList2 = new ArrayList<>();
-    	Collections.sort(moneyList, comp);
-		Collections.reverse(moneyList);
-		// Did we get the full amount?
-		// This code assumes you decrease amount each time you remove a valuable object.
-    	// Your code might use some other variable for the remaining amount to withdraw.
+    	List<Valuable> moneyList3 =MoneyUtil.filterByCurrency(moneyList, "Baht");
+    	Collections.sort(moneyList3);
+		Collections.reverse(moneyList3);
 		if ( amount >= 0 ) {	
 			
-			for(Valuable m : moneyList){
+			for(Valuable m : moneyList3){
 				if(amount >= m.getValue()){
 				amount -= m.getValue();
 				moneyList2.add(m);
@@ -128,7 +126,40 @@ public class Purse {
 		}
         return null; 
 	}
-  
+    
+    /**
+     * Withdraw the requested amount and currency of money.
+     * @param amount
+     * @return  an array of valuable objects withdrawn from purse,
+     *  or return null if cannot withdraw the amount requested.
+     */
+    public Valuable[] withdraw(Valuable amount ) {
+    	List<Valuable> moneyList2 = new ArrayList<>();
+    	List<Valuable> moneyList3 =MoneyUtil.filterByCurrency(moneyList, amount.getCurrency());
+    	Collections.sort(moneyList3);
+		Collections.reverse(moneyList3);
+		double amount_value = amount.getValue();
+		if ( amount_value >= 0 ) {	
+			
+			for(Valuable m : moneyList3){
+				if(amount_value >= m.getValue()){
+				amount_value -= m.getValue();
+				moneyList2.add(m);
+				}
+			}
+			
+			if(amount_value == 0){
+				for(Valuable m: moneyList2){
+					moneyList.remove(m);
+				}
+				Valuable [] withdraw_money = new Valuable[moneyList2.size()];
+				moneyList2.toArray(withdraw_money);
+				return withdraw_money;
+			}			
+		}
+        return null; 
+	}
+    
     /** 
      * toString returns a string description of the purse contents.
      * It can return whatever is a useful description.

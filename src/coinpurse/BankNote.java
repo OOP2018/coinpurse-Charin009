@@ -5,11 +5,9 @@ package coinpurse;
  * @author Charin Tantrakul.
  *
  */
-public class BankNote implements Valuable {
+public class BankNote extends Money {
 
 	private static long nextSerialNumber = 1000000;
-	private double value;
-	private String currency;
 	private long serialNumber;
 	
 	/**
@@ -18,29 +16,10 @@ public class BankNote implements Valuable {
 	 * @param currency is currency of BankNote object.
 	 */
 	public BankNote(double value, String currency) {
-		if (value >= 0) {
-			this.value = value;
-			this.currency = currency;
+			super(value, currency);
 			this.serialNumber = nextSerialNumber++;
-		}
 	}
 
-	/**
-	 * Get value of BankNote.
-	 * @return value of BankNote.
-	 */
-	public double getValue() {
-		return this.value;
-	}
-
-	/**
-	 * Get currency of BankNote.
-	 * @return currency of BankNote.
-	 */
-	public String getCurrency() {
-		return this.currency;
-	}
-	
 	/**
 	 * Get serial number of BankNote.
 	 * @return serial number of BankNote.
@@ -50,25 +29,12 @@ public class BankNote implements Valuable {
 	}
 	
 	/**
-	 * Check two BankNote have the same value and currency or not.
-	 * @param arg is other BankNote that you want to check.
-	 * @return true if two BankNote have same value and currency, false if it's not.
-	 */
-	public boolean equals(Object arg) {
-		if(arg == null) return false;
-		if(arg.getClass() != this.getClass()) return false;
-		BankNote other_note = (BankNote) arg;
-		if(value == other_note.value && currency.equalsIgnoreCase(other_note.currency)) return true;
-		return false;
-	}
-	
-	/**
 	 * Get information of BankNote.
 	 * @return information of BankNote.
 	 */
 	@Override
 	public String toString() {
-		return String.format("%.2f-%s note " + "[" + this.serialNumber+ "]", this.value, this.currency);
+		return String.format("%.2f-%s note " + "[" + this.getSerial()+ "]", this.getValue(), this.getCurrency());
 	}
 
 }

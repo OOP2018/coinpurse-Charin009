@@ -46,25 +46,5 @@ public class MoneyUtil {
 		java.util.Collections.sort(money,comp);
 	}
 	
-	/**
-	 * Test other method and BankNote objects.
-	 * @param arg not used
-	 */
-	public static void main(String[] arg){
-		List<Valuable> money = new ArrayList<Valuable>();
-		money.add(new Coin(1 , "Baht"));
-		money.add(new Coin(10.50 , "Baht"));
-		money.add(new Coin(57 , "Baht"));
-		money.add(new Coin(2 , "Baht"));
-		money.add(new Coin(40 , "Peru"));
-		money.add(new BankNote(20,"Baht"));
-		money.add(new BankNote(30,"Baht"));
-		money.add(new BankNote(100,"Baht"));
-		money.add(new BankNote(500,"Meso"));
-		money = filterByCurrency(money, "Baht");
-		printCoin(money);
-//		printCoin(money);
-//		sortCoins(money);
-//		printCoin(money);
-	}
+
 }
