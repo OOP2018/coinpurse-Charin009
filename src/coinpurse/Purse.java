@@ -102,29 +102,8 @@ public class Purse {
 	 *    or null if cannot withdraw requested amount.
      */
     public Valuable[] withdraw( double amount ) {
-    	List<Valuable> moneyList2 = new ArrayList<>();
-    	List<Valuable> moneyList3 =MoneyUtil.filterByCurrency(moneyList, "Baht");
-    	Collections.sort(moneyList3);
-		Collections.reverse(moneyList3);
-		if ( amount >= 0 ) {	
-			
-			for(Valuable m : moneyList3){
-				if(amount >= m.getValue()){
-				amount -= m.getValue();
-				moneyList2.add(m);
-				}
-			}
-			
-			if(amount == 0){
-				for(Valuable m: moneyList2){
-					moneyList.remove(m);
-				}
-				Valuable [] withdraw_money = new Valuable[moneyList2.size()];
-				moneyList2.toArray(withdraw_money);
-				return withdraw_money;
-			}			
-		}
-        return null; 
+    	Valuable new_amount = new Money (amount,"Baht");
+    	return withdraw(new_amount);
 	}
     
     /**
