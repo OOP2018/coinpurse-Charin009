@@ -102,8 +102,8 @@ public class Purse {
 	 *    or null if cannot withdraw requested amount.
      */
     public Valuable[] withdraw( double amount ) {
-    	Valuable new_amount = new Money (amount,"Baht");
-    	return withdraw(new_amount);
+    	Valuable newAmount = new Money (amount,"Baht");
+    	return withdraw(newAmount);
 	}
     
     /**
