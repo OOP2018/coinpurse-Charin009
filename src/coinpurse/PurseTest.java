@@ -24,6 +24,7 @@ public class PurseTest {
 	/** tolerance for comparing two double values */
 	private static final double TOL = 1.0E-6;
 	private static final String CURRENCY = "Baht";
+	private static long nextSerialNumber = 1000000;
 	
     /**
      * Sets up the test fixture.
@@ -41,7 +42,7 @@ public class PurseTest {
     
     /** Make a banknote with the default currency. To save typing "new Coin(...)" */
     private BankNote makeBankNote(double value){
-    	return new BankNote(value,CURRENCY);
+    	return new BankNote(value,CURRENCY,nextSerialNumber++);
     }
 
     /** Easy test that the Purse constructor is working. */
@@ -86,7 +87,7 @@ public class PurseTest {
     {
         Purse purse = new Purse(3);
         Valuable fakeCoin = new Coin(0, CURRENCY);
-        Valuable fakeBankNote = new BankNote(0, CURRENCY);
+        Valuable fakeBankNote = new BankNote(0,CURRENCY,nextSerialNumber++);
         assertFalse( purse.insert(fakeCoin) );
         assertFalse( purse.insert(fakeBankNote) );
     }
@@ -121,7 +122,7 @@ public class PurseTest {
 		double value = 10.0;
 		Purse purse = new Purse(capacity);
 		Valuable coin = new Coin(value, "THB");
-		Valuable banknote = new BankNote(value, "THB");
+		Valuable banknote = new BankNote(value, "THB",nextSerialNumber++);
 		assertTrue( purse.insert(coin) );
 		assertTrue( purse.insert(banknote) ); // should be allowed
 		assertTrue( purse.insert(coin) ); // should be allowed
