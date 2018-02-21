@@ -8,9 +8,12 @@ import java.util.ResourceBundle;
  * @author charin tantrakul
  */
 public class Main {
-	private static MoneyFactory factory = null;
+	private static MoneyFactory factory ;
 	private static String currency;
 	
+	/**
+	 * Read properties file to set type of MoneyFactory and currency of ConsoleDialog.
+	 */
 	public static void init(){
 		ResourceBundle bundle = ResourceBundle.getBundle("purse");
 		String factoryClass = bundle.getString("moneyfactory");

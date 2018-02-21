@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
  *
  */
 public abstract class MoneyFactory {
-	private static MoneyFactory instance;
+	private static MoneyFactory instance ;
 	private double doubleValue ;
 	
 	/**
@@ -48,7 +48,7 @@ public abstract class MoneyFactory {
 	 * @param mf MoneyFactory that you want.
 	 * @return MoneyFactory.
 	 */
-	public static MoneyFactory setMoneyFactory(MoneyFactory mf) {
-		return instance = mf;
+	public static void setMoneyFactory(MoneyFactory mf) {
+		instance = mf;
 	}
 }

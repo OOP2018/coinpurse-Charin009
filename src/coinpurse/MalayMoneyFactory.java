@@ -22,7 +22,7 @@ public class MalayMoneyFactory extends MoneyFactory {
 		else if(value == 2|| value == 5 || value == 10 ||value == 20|| value == 50 || value == 100) {
 			return new BankNote(value, CURRENCY,nextSerialNumber++);
 		} else {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(value+" is not a valid in MalayMoneyFactory.Try again");
 		}
 		
 	}
