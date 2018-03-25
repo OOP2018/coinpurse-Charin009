@@ -124,8 +124,7 @@ public class ConsoleDialog {
         
         if ( scanline.hasNextDouble() ) {
              double amount = scanline.nextDouble( );
-             Valuable withdrawValue = factory.createMoney(amount);
-             Valuable [] money = purse.withdraw(withdrawValue);
+             Valuable [] money = purse.withdraw(amount);
              if ( money == null ) 
                 System.out.printf("Sorry, couldn't withdraw %.2g %s\n", amount, currency);
              else {

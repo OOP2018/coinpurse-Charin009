@@ -33,6 +33,8 @@ public class PurseTest {
     @Before
     public void setUp() {
     	// nothing to initialize
+    	MoneyFactory factory = MoneyFactory.getInstance();
+    	factory.setMoneyFactory(new ThaiMoneyFactory());
     }
     
     /** Make a coin with the default currency. To save typing "new Coin(...)" */

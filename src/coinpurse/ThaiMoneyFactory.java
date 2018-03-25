@@ -27,4 +27,9 @@ public class ThaiMoneyFactory extends MoneyFactory {
 		
 	}
 
+	@Override
+	public String getCurrency() {
+		return CURRENCY;
+	}
+
 }

@@ -2,150 +2,156 @@ package coinpurse;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import strategy.GreedyWithdraw;
+import strategy.RecursiveWithdraw;
+import strategy.WithdrawStrategy;
+
 import java.util.Collections;
 import java.util.Comparator;
 
 /**
- *  A purse contains valuable objects.
- *  You can insert coins or BankNotes, withdraw money, check the balance,
- *  and check if the purse is full.
- *  @author Charin Tantrakul
+ * A purse contains valuable objects. You can insert coins or BankNotes,
+ * withdraw money, check the balance, and check if the purse is full.
+ * 
+ * @author Charin Tantrakul
  */
 public class Purse {
-    /** Collection of objects in the purse. */
+	/** Collection of objects in the purse. */
 	private List<Valuable> moneyList;
-    
-    /** Capacity is maximum number of items the purse can hold.
-     *  Capacity is set when the purse is created and cannot be changed.
-     */
-    private final int capacity;
-    
-    /** 
-     * Define new comparator.
-     */
-    private Comparator<Valuable> comp = new ValueComparator();
-    
-    /** 
-     *  Create a purse with a specified capacity.
-     *  @param capacity is maximum number of coins you can put in purse.
-     */
-    public Purse( int capacity ) {
-    	this.capacity = capacity;
-    	 moneyList = new ArrayList<Valuable>();
-    }
 
-    /**
-     * Count and return the number of valuable objects in the purse.
-     * This is the number of valuable objects, not their value.
-     * @return the number of valuable objects in the purse.
-     */
-    public int count() { 
-    	return moneyList.size();
-    }
-    
-    /** 
-     *  Get the total value of all items in the purse.
-     *  @return the total value of all items in the purse.
-     */
-    public double getBalance() {
-		double total = 0 ;
-		for(Valuable m : moneyList) total += m.getValue();
-    	return total; 
+	/**
+	 * Capacity is maximum number of items the purse can hold. Capacity is set
+	 * when the purse is created and cannot be changed.
+	 */
+	private final int capacity;
+
+	/**
+	 * Define new comparator.
+	 */
+	private Comparator<Valuable> comp = new ValueComparator();
+
+	private WithdrawStrategy strategy = new GreedyWithdraw();
+
+	/**
+	 * Create a purse with a specified capacity.
+	 * 
+	 * @param capacity
+	 *            is maximum number of coins you can put in purse.
+	 */
+	public Purse(int capacity) {
+		this.capacity = capacity;
+		moneyList = new ArrayList<Valuable>();
 	}
 
-    
-    /**
-     * Return the capacity of the purse.
-     * @return the capacity
-     */
-    public int getCapacity() { 
-		return capacity; 
+	/**
+	 * Count and return the number of valuable objects in the purse. This is the
+	 * number of valuable objects, not their value.
+	 * 
+	 * @return the number of valuable objects in the purse.
+	 */
+	public int count() {
+		return moneyList.size();
 	}
-    
-    /** 
-     *  Test whether the purse is full.
-     *  The purse is full if number of items in purse equals
-     *  or greater than the purse capacity.
-     *  @return true if purse is full.
-     */
-    public boolean isFull() {
-        if(moneyList.size() == capacity) return true;
-        return false;
-    }
 
-    /** 
-     * Insert a valuable object into the purse.
-     * The valuable object is only inserted if the purse has space for it
-     * and the valuable object has positive value.  No worthless valuable objects!
-     * @param money is a Valuable object (Coin or BankNote) to insert into purse
-     * @return true if valuable object inserted, false if can't insert
-     */
-    public boolean insert( Valuable money ) {
-        // if the purse is already full then can't insert anything.
-        if(isFull()){
-        	return false;
-        }
-        else {
-        	if(money.getValue() <= 0)return false;
-        	moneyList.add(money);
-        	return true;
-        }
-        
-    }
-    
-    /**  
-     *  Withdraw the requested amount of money.
-     *  Return an array of valuable objects withdrawn from purse,
-     *  or return null if cannot withdraw the amount requested.
-     *  @param amount is the amount to withdraw
-     *  @return array of Valuable objects for money withdrawn, 
-	 *    or null if cannot withdraw requested amount.
-     */
-    public Valuable[] withdraw( double amount ) {
-    	Valuable newAmount = new Money (amount,"Baht");
-    	return withdraw(newAmount);
+	/**
+	 * Get the total value of all items in the purse.
+	 * 
+	 * @return the total value of all items in the purse.
+	 */
+	public double getBalance() {
+		double total = 0;
+		for (Valuable m : moneyList)
+			total += m.getValue();
+		return total;
 	}
-    
-    /**
-     * Withdraw the requested amount and currency of money.
-     * @param amount
-     * @return  an array of valuable objects withdrawn from purse,
-     *  or return null if cannot withdraw the amount requested.
-     */
-    public Valuable[] withdraw(Valuable amount ) {
-    	List<Valuable> moneyList2 = new ArrayList<>();
-    	List<Valuable> moneyList3 =MoneyUtil.filterByCurrency(moneyList, amount.getCurrency());
-    	Collections.sort(moneyList3);
-		Collections.reverse(moneyList3);
-		double amount_value = amount.getValue();
-		if ( amount_value >= 0 ) {	
-			
-			for(Valuable m : moneyList3){
-				if(amount_value >= m.getValue()){
-				amount_value -= m.getValue();
-				moneyList2.add(m);
-				}
-			}
-			
-			if(amount_value == 0){
-				for(Valuable m: moneyList2){
-					moneyList.remove(m);
-				}
-				Valuable [] withdraw_money = new Valuable[moneyList2.size()];
-				moneyList2.toArray(withdraw_money);
-				return withdraw_money;
-			}			
+
+	/**
+	 * Return the capacity of the purse.
+	 * 
+	 * @return the capacity
+	 */
+	public int getCapacity() {
+		return capacity;
+	}
+
+	/**
+	 * Test whether the purse is full. The purse is full if number of items in
+	 * purse equals or greater than the purse capacity.
+	 * 
+	 * @return true if purse is full.
+	 */
+	public boolean isFull() {
+		if (moneyList.size() == capacity)
+			return true;
+		return false;
+	}
+
+	/**
+	 * Insert a valuable object into the purse. The valuable object is only
+	 * inserted if the purse has space for it and the valuable object has
+	 * positive value. No worthless valuable objects!
+	 * 
+	 * @param money
+	 *            is a Valuable object (Coin or BankNote) to insert into purse
+	 * @return true if valuable object inserted, false if can't insert
+	 */
+	public boolean insert(Valuable money) {
+		// if the purse is already full then can't insert anything.
+		if (isFull()) {
+			return false;
+		} else {
+			if (money.getValue() <= 0)
+				return false;
+			moneyList.add(money);
+			return true;
 		}
-        return null; 
+
 	}
-    
-    /** 
-     * toString returns a string description of the purse contents.
-     * It can return whatever is a useful description.
-     */
-    public String toString() {
-    	return "Balance in this purse : "+this.getBalance();
-    }
+
+	/**
+	 * Withdraw the requested amount of money. Return an array of valuable
+	 * objects withdrawn from purse, or return null if cannot withdraw the
+	 * amount requested.
+	 * 
+	 * @param amount
+	 *            is the amount to withdraw
+	 * @return array of Valuable objects for money withdrawn, or null if cannot
+	 *         withdraw requested amount.
+	 */
+	public Valuable[] withdraw(double amount) {
+		MoneyFactory factory = MoneyFactory.getInstance();
+		Valuable newAmount = new Money(amount, factory.getCurrency());
+		return withdraw(newAmount);
+	}
+
+	/**
+	 * Withdraw the requested amount and currency of money.
+	 * 
+	 * @param amount
+	 * @return an array of valuable objects withdrawn from purse, or return null
+	 *         if cannot withdraw the amount requested.
+	 */
+	public Valuable[] withdraw(Valuable amount) {
+		List<Valuable> moneyList2 = new ArrayList<>();
+		moneyList2 = strategy.withdraw(amount, moneyList);
+		if(moneyList2 == null) return null;
+		for (Valuable m : moneyList2) {
+			moneyList.remove(m);
+		}
+		
+		Valuable[] withdraw_money = new Valuable[moneyList2.size()];
+		moneyList2.toArray(withdraw_money);
+		return withdraw_money;
+
+	}
+
+	/**
+	 * toString returns a string description of the purse contents. It can
+	 * return whatever is a useful description.
+	 */
+	public String toString() {
+		return "Balance in this purse : " + this.getBalance();
+	}
 
 }
-

@@ -40,7 +40,7 @@ public abstract class MoneyFactory {
 		catch (NumberFormatException ex){
 			throw new IllegalArgumentException();
 		}
-		return createMoney(Double.parseDouble(value));
+		return createMoney(doubleValue);
 	}
 	
 	/**
@@ -51,4 +51,6 @@ public abstract class MoneyFactory {
 	public static void setMoneyFactory(MoneyFactory mf) {
 		instance = mf;
 	}
+	
+	public abstract String getCurrency();
 }
